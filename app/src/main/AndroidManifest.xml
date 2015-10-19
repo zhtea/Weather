@@ -5,6 +5,7 @@ package="cn.ed.pku.sean.weather" >
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
 <application
+    android:name="cn.ed.pku.sean.weather.app.MyApplication"
     android:allowBackup="true"
     android:icon="@mipmap/ic_launcher"
     android:label="@string/app_name"
@@ -19,6 +20,11 @@ package="cn.ed.pku.sean.weather" >
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
     </activity>
-</application>
+    <activity android:name=".SelectCity">
+
+    </activity>
+
+
+   </application>
 
 </manifest>

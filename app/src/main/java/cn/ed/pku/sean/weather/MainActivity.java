@@ -1,6 +1,7 @@
 package cn.ed.pku.sean.weather;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -36,7 +37,7 @@ import cn.ed.pku.sean.weather.util.NetUtil;
 
 public class MainActivity extends Activity implements View.OnClickListener{
 
-    private ImageView mUpdateBtn;
+    private ImageView mUpdateBtn,myCitySelect;
     private TextView cityTv,timeTv,humidityTv,weekTv,pmDataTv,pmQualityTv,temperatureTv,climateTv,windTv;
     private ImageView weatherImg,pmImg;
     private static final int UPDATE_TODAY_WEATHER = 1;
@@ -85,9 +86,12 @@ public class MainActivity extends Activity implements View.OnClickListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+       // Log.d(TAG , "MainAcitivity->OnCreate");
         setContentView(R.layout.weather_info);
         mUpdateBtn = (ImageView) findViewById(R.id.title_update_btn);
         mUpdateBtn.setOnClickListener(this);
+        myCitySelect =(ImageView)findViewById(R.id.title_city_manager);
+        myCitySelect.setOnClickListener(this);
         /*call =(Button)findViewById(R.id.button3);
         call.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,6 +113,10 @@ public class MainActivity extends Activity implements View.OnClickListener{
     }
     @Override
     public void onClick(View view){
+        if(view.getId() == R.id.title_city_manager){
+            Intent i = new Intent(this,SelectCity.class);
+            startActivity(i);
+        }
         if(view.getId() == R.id.title_update_btn) {
             SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
             String cityCode = sharedPreferences.getString("main_city_code", "101010100");
