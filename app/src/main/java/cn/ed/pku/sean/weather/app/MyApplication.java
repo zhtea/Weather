@@ -18,12 +18,15 @@ import cn.ed.pku.sean.weather.db.CityDB;
  * Created by Bryce on 2015/10/18.
  */
 public class MyApplication extends Application{
-    protected static final String TAG= "MyAPP";
-    protected static Application mApplication;
-    List<City> mCityList;
-    CityDB mCityDB;
+    private static final String TAG= "MyAPP";
+    private static Application mApplication;
+   public static List<City> mCityList;
+    public static CityDB mCityDB;
+   // public  String[] str=new String[mCityList.size()];
+
+
     @Override
-    public void onCreate(){
+    public void  onCreate(){
         super.onCreate();
         Log.d(TAG,"MyApplication->OnCreate");
         mApplication = this;
@@ -31,22 +34,27 @@ public class MyApplication extends Application{
         mCityDB =openCityDB();
         initCityList();
     }
-    public static Application getInstance(){
+    public  Application getInstance(){
         return mApplication;
     }
 
     //初始化数据库
-    private CityDB openCityDB(){
+    private  CityDB  openCityDB(){
         String path = "/data"+ Environment.getDataDirectory().getAbsolutePath()+ File.separator+
-                getPackageName()+File.separator+"databases"+File.separator+CityDB.CITY_DB_NAME;
-        File db =new File(path);
-        Log.d("MyApp",path);
+                getPackageName()+File.separator+"databases"+File.separator;
+       // File db =new File(path);
+        File dir =new File(path);
+        if(!dir.exists()){
+            dir.mkdirs();
+        }
+        File db = new File(path+CityDB.CITY_DB_NAME);
+        Log.d(TAG,path);
         if(!db.exists()){
             Log.i("MyApp","db is not exists");
             try {
                 InputStream is =getAssets().open("city.db");
                 FileOutputStream fos =new FileOutputStream(db);
-                int len =-1;
+                int len = -1;
                 byte[] buffer = new byte[1024];
                 while((len =is.read(buffer))!=-1){
                     fos.write(buffer,0,len);
@@ -64,7 +72,7 @@ public class MyApplication extends Application{
 
     //初始化城市信息列表
 
-    private void initCityList(){
+    private void  initCityList(){
         mCityList = new ArrayList<City>();
         new Thread(new Runnable() {
             @Override
@@ -76,10 +84,17 @@ public class MyApplication extends Application{
 
     private boolean prepareCityList(){
         mCityList = mCityDB.getAllCity();
-        for(City city :mCityList){
+
+      //  int i=0;
+      //  Intent intent = new Intent(MyApplication.this, SelectCity.class);
+       /* for(City city :mCityList){
             String cityName = city.getCity();
-            Log.d("MyApp",cityName);
+     //       str[i]=cityName;
+           // Log.d("MyApp",cityName);
         }
+      //  intent.putExtra("st", str);
+      //  startActivity(intent);*/
         return true;
     }
+
 }

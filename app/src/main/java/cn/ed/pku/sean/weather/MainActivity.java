@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,9 +38,10 @@ import cn.ed.pku.sean.weather.util.NetUtil;
 
 public class MainActivity extends Activity implements View.OnClickListener{
 
-    private ImageView mUpdateBtn,myCitySelect;
+    private ImageView mUpdateBtn,myCitySelect,mTitleShare,mTitleLocation;
     private TextView cityTv,timeTv,humidityTv,weekTv,pmDataTv,pmQualityTv,temperatureTv,climateTv,windTv;
     private ImageView weatherImg,pmImg;
+    private ProgressBar mUpdateProgressbar;
     private static final int UPDATE_TODAY_WEATHER = 1;
 
     /*Button call;*/
@@ -89,6 +91,10 @@ public class MainActivity extends Activity implements View.OnClickListener{
        // Log.d(TAG , "MainAcitivity->OnCreate");
         setContentView(R.layout.weather_info);
         mUpdateBtn = (ImageView) findViewById(R.id.title_update_btn);
+        mUpdateProgressbar = (ProgressBar)findViewById(R.id.title_progress_bar);
+        mTitleLocation=(ImageView)findViewById(R.id.title_location);
+        mTitleShare=(ImageView)findViewById(R.id.title_share);
+        mUpdateProgressbar.setVisibility(View.GONE);
         mUpdateBtn.setOnClickListener(this);
         myCitySelect =(ImageView)findViewById(R.id.title_city_manager);
         myCitySelect.setOnClickListener(this);
@@ -116,18 +122,45 @@ public class MainActivity extends Activity implements View.OnClickListener{
         if(view.getId() == R.id.title_city_manager){
             Intent i = new Intent(this,SelectCity.class);
             startActivity(i);
+
         }
         if(view.getId() == R.id.title_update_btn) {
+            mUpdateBtn.setVisibility(View.INVISIBLE);
+            mTitleLocation.setVisibility(View.INVISIBLE);
+            mTitleShare.setVisibility(View.INVISIBLE);
+            mUpdateProgressbar.setVisibility(View.VISIBLE);
             SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
             String cityCode = sharedPreferences.getString("main_city_code", "101010100");
             Log.d("myWeather", cityCode);
             if(NetUtil.getNetworkState(this) != NetUtil.NETWORN_NONE){
-                Log.d("myWeather","网络ok");
+                Log.d("myWeather", "网络ok");
+               // final ProgressDialog proDialog = android.app.ProgressDialog.show(MainActivity.this, "正在刷新", "2秒后自动消失！");
                 queryWeatherCode(cityCode);
+                /*Thread thread = new Thread()
+                {
+                    public void run()
+                    {
+                        try
+                        {
+                            sleep(2000);
+                        } catch (InterruptedException e)
+                        {
+                            // TODO 自动生成的 catch 块
+                            e.printStackTrace();
+                        }
+                        proDialog.dismiss();//万万不可少这句，否则会程序会卡死。
+                    }
+                };
+                thread.start();*/
             }else{
-                Log.d("myWeather","网络挂了") ;
+                Log.d("myWeather", "网络挂了") ;
                 Toast.makeText(MainActivity.this,"网络挂了",Toast.LENGTH_LONG).show();
             }
+
+            /*mUpdateProgressbar.setVisibility(View.GONE);
+            mUpdateBtn.setVisibility(View.VISIBLE);
+            mTitleLocation.setVisibility(View.VISIBLE);
+            mTitleShare.setVisibility(View.VISIBLE);*/
 
         }
     }
@@ -140,6 +173,10 @@ public class MainActivity extends Activity implements View.OnClickListener{
             switch (msg.what){
                 case UPDATE_TODAY_WEATHER:
                     updateTodayWeather((TodayWeather)msg.obj);
+                    mUpdateProgressbar.setVisibility(View.GONE);
+                    mUpdateBtn.setVisibility(View.VISIBLE);
+                    mTitleLocation.setVisibility(View.VISIBLE);
+                    mTitleShare.setVisibility(View.VISIBLE);
                     break;
                 default:
                     break;
