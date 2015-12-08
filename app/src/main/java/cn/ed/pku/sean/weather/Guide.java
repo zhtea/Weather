@@ -2,6 +2,7 @@ package cn.ed.pku.sean.weather;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -25,22 +26,39 @@ public class Guide extends Activity implements ViewPager.OnPageChangeListener{
     private ImageView[] dots;
     private int[] ids = {R.id.iv1,R.id.iv2,R.id.iv3};
 
+
+
+
     Button guide_btn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences first = (SharedPreferences)getSharedPreferences("first",MODE_PRIVATE);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.guide);
-        initViews();
-        initDots();
-        guide_btn = (Button)views.get(2).findViewById(R.id.guide_btn);
-        guide_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Guide.this,MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+        SharedPreferences sharedPreferences = getSharedPreferences("first",MODE_PRIVATE);
+        int time = sharedPreferences.getInt("time", 0);
+        if(time==0){
+            setContentView(R.layout.guide);
+            initViews();
+            initDots();
+            guide_btn = (Button)views.get(2).findViewById(R.id.guide_btn);
+            guide_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Guide.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+            SharedPreferences.Editor editor = first.edit();
+            editor.putInt("time",1);
+            editor.commit();
+        }
+        else{
+            Intent intent = new Intent(Guide.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
     }
 
     void initDots(){

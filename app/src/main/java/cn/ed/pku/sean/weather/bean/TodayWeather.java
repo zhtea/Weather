@@ -1,9 +1,11 @@
 package cn.ed.pku.sean.weather.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by Bryce on 2015/10/4.
  */
-public class TodayWeather {
+public class TodayWeather implements Serializable{
     private String city;
     private String updatetime;
     private String wendu;
@@ -16,6 +18,56 @@ public class TodayWeather {
     private String high;
     private String low;
     private String type;
+    private String fdate0="123";
+    private String fhigh0="123";
+    private String flow0="123";
+    private String ftype0="123";
+    private String ffengxiang0="123";
+
+
+    public String getFdate0() {
+        return fdate0;
+    }
+
+    public void setFdate0(String fdate0) {
+        this.fdate0 = fdate0;
+    }
+
+    public String getFhigh0() {
+        return fhigh0;
+    }
+
+    public void setFhigh0(String fhigh0) {
+        this.fhigh0 = fhigh0;
+    }
+
+    public String getFlow0() {
+        return flow0;
+    }
+
+    public void setFlow0(String flow0) {
+        this.flow0 = flow0;
+    }
+
+    public String getFtype0() {
+        return ftype0;
+    }
+
+    public void setFtype0(String ftype0) {
+        this.ftype0 = ftype0;
+    }
+
+    public String getFfengxiang0() {
+        return ffengxiang0;
+    }
+
+    public void setFfengxiang0(String ffengxiang0) {
+        this.ffengxiang0 = ffengxiang0;
+    }
+
+
+
+
     public String getCity(){
         return city;
     }

@@ -16,7 +16,8 @@ package="cn.ed.pku.sean.weather" >
         android:label="@string/app_name"
         android:screenOrientation="portrait">
     </activity>
-    <activity android:name=".SelectCity">
+    <activity android:name=".SelectCity"
+        android:launchMode="singleTask">
     </activity>
     <activity android:name=".db.CityDB"></activity>
     <activity android:name=".Guide">

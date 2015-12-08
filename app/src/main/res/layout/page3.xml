@@ -2,12 +2,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:background="#ffff0000">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="请给我们满分"
+        android:textSize="30sp"></TextView>
     <LinearLayout
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
         android:layout_alignParentBottom="true"
         android:paddingBottom="30dp"
         android:gravity="center_horizontal">
+
         <Button
             android:id="@+id/guide_btn"
             android:layout_height="wrap_content"

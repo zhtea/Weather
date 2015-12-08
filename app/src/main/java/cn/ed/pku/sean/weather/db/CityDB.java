@@ -53,12 +53,20 @@ import cn.ed.pku.sean.weather.bean.City;
         return list;
     }
     public ArrayList<String> searchCity(String s){
-        ArrayList<String> str =new ArrayList();
-       Cursor cur= db.rawQuery("SELECT city from "+CITY_TABLE_NAME+" where city"+"="+s,null);
+        ArrayList<String> str = new ArrayList<String>();
+       Cursor cur = db.rawQuery("SELECT * from "+CITY_TABLE_NAME+" where city"+"=\""+s+"\"",null);
         while(cur.moveToNext())
             str.add(cur.getString(cur.getColumnIndex("city")));
         return str;
     }
+  public String getCityCode(String s){
+
+     Cursor cur = db.rawQuery("SELECT number from " + CITY_TABLE_NAME + " where city" + "=\"" + s + "\"", null);
+      if(cur.moveToFirst())
+ return cur.getString(cur.getColumnIndex("number"));
+      return "12345";
+
+  }
 
 
 
